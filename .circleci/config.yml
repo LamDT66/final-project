@@ -42,10 +42,17 @@ jobs:
       - aws-cli/setup
       - checkout
       - run:
+          name: Set Env to EB
+          command: |
+            npm run api:setenv
+      - run:
           name: Deploy App
           # TODO: Install, build, deploy in both apps
           command: |
-            echo "# TODO: Install, build, deploy in both apps"
+            npm run frontend:install
+            npm run frontend:build
+            npm run api:install
+            npm run deploy
             
 workflows:
   udagram:
@@ -55,7 +62,7 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - main
           type: approval
           requires:
             - build
